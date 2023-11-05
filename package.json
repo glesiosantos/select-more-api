@@ -1,0 +1,11 @@
+{
+  "name": "select-more-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:glesiosantos/select-more-api.git",
+  "author": "glesiosantos <glesioss@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "git-commit-msg-linter": "^5.0.4"
+  }
+}
