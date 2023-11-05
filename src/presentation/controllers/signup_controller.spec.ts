@@ -12,7 +12,7 @@ describe('Sign Up Controller', () => {
       body: {
         email: 'any_mail@email.com.br',
         password: 'any_password',
-        confirmationPassword: 'any_password'
+        passwordConfirmation: 'any_password'
       }
     }
     const httpResponse = await sut.handle(httpRequest)
@@ -25,7 +25,7 @@ describe('Sign Up Controller', () => {
       body: {
         name: 'any_name',
         password: 'any_password',
-        confirmationPassword: 'any_password'
+        passwordConfirmation: 'any_password'
       }
     }
     const httpResponse = await sut.handle(httpRequest)
@@ -38,10 +38,23 @@ describe('Sign Up Controller', () => {
       body: {
         name: 'any_name',
         email: 'any_mail@email.com.br',
-        confirmationPassword: 'any_password'
+        passwordConfirmation: 'any_password'
       }
     }
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(badRequest(new MissingParamError('password')))
+  })
+
+  it('should return 400 when password confirmation is not provided', async () => {
+    const sut = makeSut()
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_mail@email.com.br',
+        password: 'any_password'
+      }
+    }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual(badRequest(new MissingParamError('passwordConfirmation')))
   })
 })
