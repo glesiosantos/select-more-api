@@ -8,20 +8,24 @@ import { HttpRequest, HttpResponse } from '../protocols/http'
 export class SignUpController implements Controller {
   constructor(private readonly emailValidator: EmailValidator) { }
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
-    const requiredFields = ['name', 'email', 'password', 'passwordConfirmation']
+    try {
+      const requiredFields = ['name', 'email', 'password', 'passwordConfirmation']
 
-    for (const field of requiredFields) {
-      if (!httpRequest.body[field]) {
-        return badRequest(new MissingParamError(field))
+      for (const field of requiredFields) {
+        if (!httpRequest.body[field]) {
+          return badRequest(new MissingParamError(field))
+        }
       }
-    }
 
-    if (httpRequest.body.password !== httpRequest.body.passwordConfirmation) {
-      return badRequest(new InvalidParamError('passwordConfirmation'))
-    }
-    const isValid = this.emailValidator.isValid(httpRequest.body.email)
-    if (!isValid) {
-      return badRequest(new InvalidParamError('email'))
+      if (httpRequest.body.password !== httpRequest.body.passwordConfirmation) {
+        return badRequest(new InvalidParamError('passwordConfirmation'))
+      }
+      const isValid = this.emailValidator.isValid(httpRequest.body.email)
+      if (!isValid) {
+        return badRequest(new InvalidParamError('email'))
+      }
+    } catch (error) {
+      return { statusCode: 500, body: new Error('Internal Server Error') }
     }
   }
 }
