@@ -1,6 +1,7 @@
+import { Controller } from '../protocols/controller'
 import { SignUpController } from './signup_controller'
 
-const makeSut = (): any => new SignUpController()
+const makeSut = (): Controller => new SignUpController()
 
 describe('Sign Up Controller', () => {
   it('should return 400 when name is not provided', async () => {
