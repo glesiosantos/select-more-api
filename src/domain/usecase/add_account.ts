@@ -1,6 +1,6 @@
 import { AccountModel } from '../models/account'
 
-type AddAccountModel = {
+export type AddAccountModel = {
   name: string
   email: string
   password: string
