@@ -1,8 +1,13 @@
 import { AccountModel } from '../../domain/models/account'
 import { AddAccount, AddAccountModel } from '../../domain/usecase/add_account'
+import { MongoHelper } from './mongo_helpers'
 
 export class AccountMongoRepository implements AddAccount {
   async add(data: AddAccountModel): Promise<AccountModel> {
-    return new Promise(resolve => { resolve(null) })
+    const accountRepository = MongoHelper.getCollection('accounts')
+    const result = await accountRepository.insertOne(data)
+    const accountById = await accountRepository.findOne({ _id: result.insertedId })
+    const { _id, accountWithoutId } = accountById
+    return Object.assign({}, accountWithoutId, { id: _id.toHexString() })
   }
 }
